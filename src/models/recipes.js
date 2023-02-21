@@ -21,5 +21,10 @@ const updateData  = (id,data) => {
         `UPDATE recipes SET title='${data}', ingredients='${data}', photo='${data}' WHERE id=${id}`);
 }
 
+const deleteData = (id,data) => {
+  return Pool.query(
+      `DELETE FROM recipes WHERE id=${id}`);
+}
+
  
-module.exports = {insertData,getData,updateData}
+module.exports = {insertData,getData,updateData,deleteData}

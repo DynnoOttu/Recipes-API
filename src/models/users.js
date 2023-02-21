@@ -27,6 +27,6 @@ const updateData = (id,data) => {
 
 const deleteData = (id,data) => {
     return Pool.query(
-        `DELETE FROM users WHERE id=${id}`);
+        `DELETE FROM recipes WHERE id=${id}`);
 }
 module.exports = {selectDataUsers, insertData, selectDataById,updateData,deleteData}

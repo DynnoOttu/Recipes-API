@@ -1,4 +1,4 @@
-const{insertData,getData,updateData} = require('./../models/recipes')
+const{insertData,getData,updateData,deleteData} = require('./../models/recipes')
 
 const RecipesController = {
     inputRecipes: async (req,res,next)=>{
@@ -49,6 +49,19 @@ const RecipesController = {
   
         res.status(200).json({status:200,message:`update data success`})
     },
+    deleteData: async(req,res,next)=>{
+        let id = req.params.id
+        let result = await deleteData(id)
+    
+        console.log(result)
+        
+        if(!result){
+            res.status(404).json({status:404,message:`delete data failed`})
+        }
+    
+        res.status(200).json({status:200,message:`delete data success`,data:`${id} deleted`})
+    
+    }
 }
 
 module.exports = RecipesController

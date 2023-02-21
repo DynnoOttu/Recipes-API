@@ -15,7 +15,7 @@ let data = {
 const UsersController = {
     getDetail: async (req,res,next)=>{
         let id = req.params.id
-        let foundUser = null
+        let foundUser = await selectDataUsers()
       
         data.users.map(item =>{
           if( item.id == id){
