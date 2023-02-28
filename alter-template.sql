@@ -56,3 +56,32 @@ ALTER TABLE recipes ADD slug VARCHAR;
 ALTER TABLE recipes add deleted_at TIMESTAMP DEFAULT NULL;
 
 SELECT * FROM recipes LIMIT 2 OFFSET 3;
+
+CREATE TABLE
+    users(
+        id VARCHAR PRIMARY KEY,
+        email VARCHAR NOT NULL,
+        password VARCHAR NOT NULL,
+        fullname VARCHAR,
+        photo VARCHAR,
+        verif INT DEFAULT 0,
+        OTP VARCHAR,
+        created_at TIMESTAMP
+    );
+
+INSERT INTO
+    users(id, email, password, fullname)
+VALUES (
+        '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+        'michelle@gmail.com',
+        '12345',
+        'michelle pau gie'
+    );
+
+ALTER TABLE recipes add users_id VARCHAR;
+
+ALTER TABLE recipes ADD FOREIGN KEY (users_id) REFERENCES users(id);
+
+SELECT * FROM users;
+
+SELECT * FROM recipes 

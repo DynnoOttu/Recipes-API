@@ -1,9 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const {inputRecipes,getRecipes,putRecipes,deleteData} = require('./../controller/recipes')
+const {inputRecipes,getRecipes,putRecipes,deleteData,getRecipesById} = require('./../controller/recipes')
+const {protect} = require('../middleware/auth')
+const upload = require('../middleware/uploadPhoto')
 
-router.post('/',inputRecipes)
+router.post('/',protect,upload.single('photo'),inputRecipes)
 router.get('/',getRecipes)
+router.get('/my-recipe',protect,getRecipesById)
 router.put('/:id',putRecipes)
 router.delete('/:id',deleteData)
 
