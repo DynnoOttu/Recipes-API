@@ -59,9 +59,15 @@ const RecipesController = {
     const id = req.params.id
     const title = req.body.title
     const ingredients = req.body.ingredients
+    const categoryId = req.body.category_id
     const photo = req.body.photo
+    const usersId = req.body.users_id
 
-    const result = await updateData(id, title, ingredients, photo)
+    if (usersId !== req.payload.users_id) {
+      res.status(404).json({ status: 404, message: 'please login' })
+    }
+
+    const result = await updateData(id, title, ingredients, categoryId, photo, usersId)
 
     if (!result) {
       res.status(404).json({ status: 404, message: 'data input not found' })

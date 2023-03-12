@@ -13,7 +13,7 @@ const insertData = (data) => {
 const getData = (data) => {
   const { searchBy, search, sortBy, sort } = data
   return Pool.query(
-    `SELECT recipes.title,recipes.ingredients,recipes.created_at as posttime, category.name as category, recipes.photo FROM recipes JOIN category ON recipes.category_id=category.id WHERE recipes.${searchBy} ILIKE '%${search}%' AND recipes.deleted_at IS NULL ORDER BY recipes.${sortBy} ${sort}`
+    `SELECT recipes.title,recipes.ingredients,recipes.created_at as posttime, category.name as category, recipes.photo FROM recipes JOIN category ON recipes.category_id=category.id WHERE recipes.${searchBy} ILIKE '%${search}%' AND recipes.deleted_at IS NULL ORDER BY recipes.${sortBy} ${sort} LIMIT 5`
   )
 }
 
@@ -25,9 +25,9 @@ const getDataById = (data) => {
   )
 }
 
-const updateData = (id, data) => {
+const updateData = (id, title, ingredients, photo, categoryId) => {
   return Pool.query(
-        `UPDATE recipes SET title='${data}', ingredients='${data}', photo='${data}' WHERE id=${id}`)
+        `UPDATE recipes SET title='${title}', ingredients='${ingredients}', category_id=${categoryId} WHERE id=${id}`)
 }
 
 const deleteData = (id, data) => {

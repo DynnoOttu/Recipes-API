@@ -84,4 +84,6 @@ ALTER TABLE recipes ADD FOREIGN KEY (users_id) REFERENCES users(id);
 
 SELECT * FROM users;
 
+SELECT * FROM category;
+
 SELECT * FROM recipes 
