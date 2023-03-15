@@ -36,7 +36,7 @@ const UsersController = {
     }
 
     try {
-      const url = `http://${process.env.BASE_URL}:${process.env.PORT}/auth/otp/${id}/${otp}`
+      const url = `https://real-teal-dragonfly-gear.cyclic.app/auth/otp/${id}/${otp}`
       const sendEmail = email(req.body.email, otp, url, req.body.name)
 
       if (sendEmail === 'email not send') {
