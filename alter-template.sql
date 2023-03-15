@@ -1,4 +1,4 @@
--- Active: 1676718221634@@127.0.0.1@5432@recipes@public
+-- Active: 1678775677472@@149.129.241.190@5432@dynno01@public
 
 -- change column type
 
@@ -72,7 +72,7 @@ CREATE TABLE
 INSERT INTO
     users(id, email, password, fullname)
 VALUES (
-        '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+        '2',
         'michelle@gmail.com',
         '12345',
         'michelle pau gie'
@@ -86,4 +86,47 @@ SELECT * FROM users;
 
 SELECT * FROM category;
 
-SELECT * FROM recipes 
+SELECT *
+FROM
+    ------------------cloud database-----------------
+CREATE TABLE
+    category(
+        id SERIAL PRIMARY KEY,
+        name VARCHAR NOT NULL
+    );
+
+INSERT INTO category(name) VALUES('desserts');
+
+CREATE TABLE
+    users(
+        id VARCHAR PRIMARY KEY,
+        email VARCHAR NOT NULL,
+        password VARCHAR NOT NULL,
+        fullname VARCHAR,
+        photo VARCHAR,
+        verif INT DEFAULT 0,
+        OTP VARCHAR,
+        created_at TIMESTAMP
+    );
+
+CREATE TABLE
+    recipes(
+        id SERIAL,
+        title VARCHAR NOT NULL,
+        ingredients TEXT NOT NULL,
+        photo VARCHAR,
+        created_at TIMESTAMP NOT NULL,
+        users_id VARCHAR REFERENCES users(id)
+    );
+
+ALTER TABLE recipes ADD category_id INT;
+
+SELECT * FROM recipes;
+
+ALTER TABLE recipes add slug VARCHAR;
+
+ALTER TABLE recipes
+ADD
+    Foreign Key (category_id) REFERENCES category(id);
+
+ALTER TABLE recipes add deleted_at TIMESTAMP DEFAULT NULL;

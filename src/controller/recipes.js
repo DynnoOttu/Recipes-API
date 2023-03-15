@@ -6,6 +6,10 @@ const RecipesController = {
     const imageUrl = await cloudinary.uploader.upload(req.file.path, { folder: 'food' })
     console.log('image url', imageUrl)
 
+    if (!imageUrl) {
+      res.status(404).json({ status: 404, message: 'input data failed failed to upload photo' })
+    }
+
     const data = {}
     data.title = req.body.title
     data.photo = imageUrl.secure_url
