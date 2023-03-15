@@ -10,6 +10,8 @@ const UsersController = {
       return res.status(404).json({ status: 404, message: 'input data yang benar' })
     }
 
+    console.log(req.body.email)
+
     const { rows: [users] } = await findUser(req.body.email)
 
     if (users) {
@@ -75,6 +77,8 @@ const UsersController = {
       delete users.created_at
       delete users.otp
 
+      console.log('verif', users.verif)
+
       // eslint-disable-next-line eqeqeq
       if (data.verif == 0) {
         return res.status(404).json({ status: 404, message: 'login failed, please check your email for verified' })
@@ -97,6 +101,10 @@ const UsersController = {
     if (!users) {
       return res.status(404).json({ status: 404, message: 'users not found' })
     }
+
+    console.log(users)
+
+    console.log(users.otp, otpUser)
 
     // eslint-disable-next-line eqeqeq
     if (users.otp == otpUser) {
