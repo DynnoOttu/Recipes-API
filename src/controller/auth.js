@@ -36,7 +36,7 @@ const UsersController = {
     }
 
     try {
-      const url = `https://real-teal-dragonfly-gear.cyclic.app/auth/otp/${id}/${otp}`
+      const url = `http://${process.env.BASE_URL}:${process.env.PORT}/auth/otp/${id}/${otp}`
       const sendEmail = email(req.body.email, otp, url, req.body.name)
 
       if (sendEmail === 'email not send') {
@@ -75,7 +75,6 @@ const UsersController = {
       delete users.created_at
       delete users.otp
 
-      console.log('verif', users.verif)
       // eslint-disable-next-line eqeqeq
       if (data.verif == 0) {
         return res.status(404).json({ status: 404, message: 'login failed, please check your email for verified' })
@@ -98,10 +97,6 @@ const UsersController = {
     if (!users) {
       return res.status(404).json({ status: 404, message: 'users not found' })
     }
-
-    console.log(users)
-
-    console.log(users.otp, otpUser)
 
     // eslint-disable-next-line eqeqeq
     if (users.otp == otpUser) {
