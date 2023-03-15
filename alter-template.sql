@@ -130,3 +130,5 @@ ADD
     Foreign Key (category_id) REFERENCES category(id);
 
 ALTER TABLE recipes add deleted_at TIMESTAMP DEFAULT NULL;
+
+SELECT * FROM users 

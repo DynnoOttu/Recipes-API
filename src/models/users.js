@@ -49,6 +49,7 @@ const findUser = (email) => {
 
 const createUser = (data) => {
   const { email, fullname, password, id, otp } = data
+  console.log(data)
   return new Promise((resolve, reject) =>
     Pool.query(`INSERT INTO users(id,email,fullname,password,otp) VALUES('${id}','${email}','${fullname}','${password}','${otp}')`, (err, result) => {
       if (!err) {
