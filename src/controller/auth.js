@@ -10,8 +10,6 @@ const UsersController = {
       return res.status(404).json({ status: 404, message: 'input data yang benar' })
     }
 
-    console.log(req.body.email)
-
     const { rows: [users] } = await findUser(req.body.email)
 
     if (users) {
