@@ -13,7 +13,7 @@ const insertData = (data) => {
 const getData = (data) => {
   const { searchBy, search, sortBy, sort } = data
   return Pool.query(
-    `SELECT recipes.title,recipes.ingredients,recipes.created_at as posttime, category.name as category, recipes.photo FROM recipes JOIN category ON recipes.category_id=category.id WHERE recipes.${searchBy} ILIKE '%${search}%' AND recipes.deleted_at IS NULL ORDER BY recipes.${sortBy} ${sort} LIMIT 5`
+    `SELECT recipes.title,recipes.ingredients,recipes.created_at as posttime, category.name as category, recipes.photo, users.fullname as creator, users.email FROM recipes JOIN category ON recipes.category_id=category.id JOIN users ON recipes.users_id=users.id WHERE recipes.${searchBy} ILIKE '%${search}%' AND recipes.deleted_at IS NULL ORDER BY recipes.${sortBy} ${sort} LIMIT 5`
   )
 }
 

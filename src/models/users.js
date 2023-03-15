@@ -7,6 +7,7 @@ const selectDataUsers = () => {
 }
 
 const insertData = data => {
+  console.log(data)
   const { name, email, phone, password } = data
   return Pool.query(
         `INSERT INTO users(name,email,phone,password) VALUES('${name}','${email}','${phone}',${password})`)
