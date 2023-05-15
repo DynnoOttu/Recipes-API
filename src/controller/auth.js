@@ -74,7 +74,7 @@ const UsersController = {
 
     if (verifyPassword) {
       users.token = token
-      // users.refreshToken = newToken
+      users.refreshToken = newToken
       delete users.password
       delete users.created_at
       delete users.otp
