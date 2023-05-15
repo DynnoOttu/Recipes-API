@@ -1,7 +1,7 @@
 const { findUser, createUser, selectUserById, verifUser } = require('./../models/users')
 const { v4: uuidv4 } = require('uuid')
 const argon2 = require('argon2')
-const generateToken = require('./../helpers/generateToken')
+const { generateToken, refreshToken } = require('./../helpers/generateToken')
 const email = require('../middleware/email')
 
 const UsersController = {
@@ -70,9 +70,11 @@ const UsersController = {
     delete data.password
 
     const token = generateToken(data)
+    // const newToken = refreshToken(data)
 
     if (verifyPassword) {
       users.token = token
+      // users.refreshToken = newToken
       delete users.password
       delete users.created_at
       delete users.otp

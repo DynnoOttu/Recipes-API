@@ -1,13 +1,26 @@
-const { insertData, getData, updateData, deleteData, getDataById } = require('./../models/recipes')
+const {
+  insertData,
+  getData,
+  updateData,
+  deleteData,
+  getDataById
+} = require('./../models/recipes')
 const cloudinary = require('../config/photo')
 
 const RecipesController = {
   inputRecipes: async (req, res, next) => {
-    const imageUrl = await cloudinary.uploader.upload(req.file.path, { folder: 'food' })
+    const imageUrl = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'food'
+    })
     console.log('image url', imageUrl)
 
     if (!imageUrl) {
-      res.status(404).json({ status: 404, message: 'input data failed failed to upload photo' })
+      res
+        .status(404)
+        .json({
+          status: 404,
+          message: 'input data failed failed to upload photo'
+        })
     }
 
     const data = {}
@@ -40,7 +53,9 @@ const RecipesController = {
       res.status(404).json({ status: 404, message: 'get data failed' })
     }
 
-    res.status(200).json({ status: 200, message: 'get data success', data: result.rows })
+    res
+      .status(200)
+      .json({ status: 200, message: 'get data success', data: result.rows })
   },
   getRecipesById: async (req, res, next) => {
     const { searchBy, search, sortBy, sort } = req.query
@@ -57,7 +72,9 @@ const RecipesController = {
       res.status(404).json({ status: 404, message: 'get data failed' })
     }
 
-    res.status(200).json({ status: 200, message: 'get data success', data: result.rows })
+    res
+      .status(200)
+      .json({ status: 200, message: 'get data success', data: result.rows })
   },
   putRecipes: async (req, res, next) => {
     const id = req.params.id
@@ -71,7 +88,14 @@ const RecipesController = {
       res.status(404).json({ status: 404, message: 'please login' })
     }
 
-    const result = await updateData(id, title, ingredients, categoryId, photo, usersId)
+    const result = await updateData(
+      id,
+      title,
+      ingredients,
+      categoryId,
+      photo,
+      usersId
+    )
 
     if (!result) {
       res.status(404).json({ status: 404, message: 'data input not found' })
@@ -89,7 +113,13 @@ const RecipesController = {
       res.status(404).json({ status: 404, message: 'delete data failed' })
     }
 
-    res.status(200).json({ status: 200, message: 'delete data success', data: `${id} deleted` })
+    res
+      .status(200)
+      .json({
+        status: 200,
+        message: 'delete data success',
+        data: `${id} deleted`
+      })
   }
 }
 
