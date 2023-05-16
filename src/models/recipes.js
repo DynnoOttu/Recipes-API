@@ -4,9 +4,10 @@ const insertData = (data) => {
   const { ingredients, title, photo, users_id, category_id } = data
   const time = new Date().toISOString()
   return Pool.query(
-    `INSERT INTO recipes(title,ingredients,photo,users_id,created_at,category_id) VALUES('${title}','${ingredients}','${photo}','${users_id}','${time}',${category_id})`
-  )
+    `INSERT INTO recipes(title,ingredients,photo,users_id,created_at,category_id) VALUES('${title}','${ingredients}','${photo}','${users_id}','${time}',NOW()::timestamp, '${category_id}')`)
 }
+
+
 
 const getData = (data) => {
   const { searchBy, search, sortBy, sort } = data
@@ -23,9 +24,9 @@ const getDataById = (data) => {
   )
 }
 
-const updateData = (id, title, ingredients, photo, categoryId, users_id) => {
+const updateData = (id, title, ingredients, photo, category_id, users_id) => {
   return Pool.query(
-    `UPDATE recipes SET title='${title}', ingredients='${ingredients}', photo='${photo}', category_id=${categoryId}, users_id='${users_id}' WHERE id=${id}`
+    `UPDATE recipes SET title='${title}', ingredients='${ingredients}', photo='${photo}', category_id=${category_id}, users_id='${users_id}' WHERE id=${id}`
   )
 }
 
