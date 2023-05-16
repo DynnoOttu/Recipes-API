@@ -23,14 +23,26 @@ const getDataById = (data) => {
   )
 }
 
-const updateData = (id, title, ingredients, photo, categoryId, users_id) => {
-  return Pool.query(
-    `UPDATE recipes SET title='${title}', ingredients='${ingredients}', photo='${photo}', category_id=${categoryId}, users_id='${users_id}' WHERE id=${id}`
-  )
-}
+const updateData = (id, data) => {
+  let { ingredients, title, photo, users_id, category_id } = data;
+  return Pool.query(`UPDATE recipes SET ingredients='${ingredients}', title='${title}', photo='${photo}', category_id=${category_id}, users_id='${users_id}' WHERE id='${id}'`);
+};
 
 const deleteData = (id, data) => {
   return Pool.query(`DELETE FROM recipes WHERE id=${id}`)
 }
 
-module.exports = { insertData, getData, updateData, deleteData, getDataById }
+const findUser = (email) => {
+  return new Promise((resolve, reject) =>
+    Pool.query(`SELECT * FROM users WHERE id='${email}'`,
+      (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      }))
+};
+
+
+module.exports = { insertData, getData, updateData, deleteData, getDataById, findUser }

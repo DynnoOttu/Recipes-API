@@ -13,7 +13,7 @@ const upload = require("../middleware/uploadPhoto");
 router.post("/", protect, upload.single("photo"), inputRecipes);
 router.get("/", getRecipes);
 router.get("/my-recipe", protect, getRecipesById);
-router.put("/:id", protect, putRecipes);
+router.put("/:id", protect, upload.single("photo"), putRecipes);
 router.delete("/:id", deleteData);
 
 module.exports = router;
