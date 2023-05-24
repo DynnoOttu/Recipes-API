@@ -57,5 +57,30 @@ const findUser = (email) => {
       }))
 };
 
+const selectedDataById = (id) => {
+  console.log(id)
+  return Pool.query(
+    `SELECT 
+    recipes.id,
+    recipes.title,
+    recipes.ingredients,
+    recipes.photo,
+    recipes.users_id,
+    users.email as creator,
+    users.photo as user_photo,
+    users.fullname as username,
+    recipes.created_at as posttime, 
+    category.name as category,
+    recipes.category_id
+  FROM 
+    recipes 
+  JOIN 
+    category ON recipes.category_id=category.id
+  JOIN 
+    users ON users.id = users_id
+  WHERE 
+    recipes.id = ${id}`
+  );
+}
 
-module.exports = { insertData, getData, updateData, deleteData, getDataById, findUser }
+module.exports = { insertData, getData, updateData, deleteData, getDataById, findUser, selectedDataById }

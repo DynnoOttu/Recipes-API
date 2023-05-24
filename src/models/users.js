@@ -25,6 +25,20 @@ const selectUserById = (id) => {
   )
 }
 
+
+const selectDataByEmail = (email) => {
+  return new Promise((resolve, reject) =>
+    Pool.query(`SELECT * FROM users WHERE email='${email}'`,
+      (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      }))
+}
+
+
 const updateData = (id, data) => {
   return Pool.query(
     `UPDATE users SET name='${data}', email='${data}', phone='${data}',password='${data}' WHERE id=${id}`)
@@ -64,4 +78,4 @@ const verifUser = (id) => {
   return Pool.query(
     `UPDATE users SET verif=1 WHERE id='${id}'`)
 }
-module.exports = { selectDataUsers, insertData, selectUserById, updateData, deleteData, findUser, createUser, verifUser }
+module.exports = { selectDataUsers, insertData, selectUserById, updateData, deleteData, findUser, createUser, verifUser, selectDataByEmail }
