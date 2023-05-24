@@ -83,22 +83,6 @@ const RecipesController = {
       .status(200)
       .json({ status: 200, message: 'get data success', data: result.rows })
   },
-
-  selectDataById: async (req, res, next) => {
-    try {
-      let id = req.params.id
-
-      let result = await selectedDataById(id)
-
-      if (result.rows[0]) {
-        res.status(200).json({ status: 200, message: `data recipe found`, data: result.rows })
-      } else {
-        res.status(400).json({ status: 400, message: `data recipe not found` })
-      }
-    } catch (err) {
-      return next(res.status(404).json({ status: 404, message: err.message }));
-    }
-  },
   putRecipes: async (req, res, next) => {
     try {
       let id = req.params.id;
