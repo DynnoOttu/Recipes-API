@@ -6,6 +6,7 @@ const {
   getDataById,
   findUser
 } = require('./../models/recipes')
+const { findFoodRecipesById } = require("../middleware/verifyUser");
 const cloudinary = require('../config/photo')
 
 const RecipesController = {
@@ -84,31 +85,68 @@ const RecipesController = {
   },
   putRecipes: async (req, res, next) => {
     try {
-      const imageUrl = await cloudinary.uploader.upload(req.file.path, { folder: 'recipes' })
+      let id = req.params.id;
 
-      let id = req.params.id
-      let data = {};
-      data.title = req.body.title;
-      data.photo = imageUrl.secure_url;
-      data.users_id = req.payload.id;
-      data.ingredients = req.body.ingredients;
-      data.category_id = req.body.category_id;
+      let selectDataById = await findFoodRecipesById(id);
+      let currentRecipe = selectDataById.rows[0];
 
-      let { rows: [users] } = await findUser(req.payload.id)
+      if (req.file) {
+        let imageUrl = await cloudinary.uploader.upload(req.file.path, {
+          folders: "recipes",
+        });
 
-      if (!users) {
-        res.status(404).json({ status: 404, message: `this recipe is not owned by you` })
+        if (!imageUrl) {
+          res.status(401).json({
+            message: "input power is replaced",
+          });
+        }
+
+        let data = {
+          title: req.body.title || currentRecipe.title,
+          ingredients: req.body.ingredients || currentRecipe.ingredients,
+          category_id: req.body.category_id || currentRecipe.category_id,
+          photo: imageUrl.secure_url || currentRecipe.photo,
+          users_id: req.payload.id || currentRecipe.users_id,
+        };
+
+        if (data.users_id != currentRecipe.users_id || req.payload.id != currentRecipe.users_id) {
+          res.status(403).json({
+            message: "sorry not your recipe",
+          });
+        } else {
+          await updateData(data, id);
+
+          res.status(200).json({
+            message: "data updated successfully",
+          });
+        }
+      } else {
+        let data = {
+          title: req.body.title || currentRecipe.title,
+          ingredients: req.body.ingredients || currentRecipe.ingredients,
+          category_id: req.body.category_id || currentRecipe.category_id,
+          photo: currentRecipe.photo,
+          users_id: req.payload.id || currentRecipe.users_id,
+        };
+
+        if (data.users_id != currentRecipe.users_id || req.payload.id != currentRecipe.users_id) {
+          res.status(403).json({
+            message: "Access Denied",
+          });
+        } else {
+          await updateData(data, id);
+
+          res.status(200).json({
+            message: "Data has been updated",
+          });
+        }
       }
-
-      let result = await updateData(id, data)
-
-      if (!result) {
-        return res.status(404).json({ status: 404, message: `update data failed` })
-      }
-
-      return res.status(200).json({ status: 200, message: `update data success` })
-    } catch (err) {
-      return next(res.status(404).json({ status: 404, message: err.message }));
+    } catch (error) {
+      res.status(500).json({
+        message: "Internal server error",
+        error: error.message,
+      });
+      console.log(error)
     }
   },
   deleteData: async (req, res, next) => {

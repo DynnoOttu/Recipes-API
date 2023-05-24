@@ -10,7 +10,7 @@ const insertData = data => {
   console.log(data)
   const { name, email, phone, password } = data
   return Pool.query(
-        `INSERT INTO users(name,email,phone,password) VALUES('${name}','${email}','${phone}',${password})`)
+    `INSERT INTO users(name,email,phone,password) VALUES('${name}','${email}','${phone}',${password})`)
 }
 
 const selectUserById = (id) => {
@@ -27,12 +27,12 @@ const selectUserById = (id) => {
 
 const updateData = (id, data) => {
   return Pool.query(
-        `UPDATE users SET name='${data}', email='${data}', phone='${data}',password='${data}' WHERE id=${id}`)
+    `UPDATE users SET name='${data}', email='${data}', phone='${data}',password='${data}' WHERE id=${id}`)
 }
 
 const deleteData = (id, data) => {
   return Pool.query(
-        `DELETE FROM recipes WHERE id=${id}`)
+    `DELETE FROM recipes WHERE id=${id}`)
 }
 
 const findUser = (email) => {
@@ -62,6 +62,6 @@ const createUser = (data) => {
 
 const verifUser = (id) => {
   return Pool.query(
-        `UPDATE users SET verif=1 WHERE id='${id}'`)
+    `UPDATE users SET verif=1 WHERE id='${id}'`)
 }
 module.exports = { selectDataUsers, insertData, selectUserById, updateData, deleteData, findUser, createUser, verifUser }
