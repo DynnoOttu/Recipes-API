@@ -129,6 +129,7 @@ const RecipesController = {
           users_id: req.payload.id || currentRecipe.users_id,
         };
 
+        console.log(data)
         if (data.users_id != currentRecipe.users_id || req.payload.id != currentRecipe.users_id) {
           res.status(403).json({
             message: "Access Denied",

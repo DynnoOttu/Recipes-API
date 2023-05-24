@@ -133,4 +133,6 @@ ALTER TABLE recipes add deleted_at TIMESTAMP DEFAULT NULL;
 
 SELECT * FROM users;
 
-SELECT * FROM recipes
+SELECT * FROM recipes;
+
+SELECT * FROM category;

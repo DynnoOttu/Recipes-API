@@ -23,9 +23,22 @@ const getDataById = (data) => {
   )
 }
 
-const updateData = (id, data) => {
-  let { ingredients, title, photo, users_id, category_id } = data;
-  return Pool.query(`UPDATE recipes SET ingredients='${ingredients}', title='${title}', photo='${photo}', category_id=${category_id}, users_id='${users_id}' WHERE id='${id}'`);
+const updateData = (data, id) => {
+  let { title, ingredients, category_id, photo, users_id } = data;
+
+  return new Promise((resolve, reject) => {
+    Pool.query(
+      `UPDATE recipes SET title='${title}', ingredients='${ingredients}', category_id=${category_id}, photo='${photo}', users_id = '${users_id}'
+          WHERE id = ${id} AND deleted_at IS NULL`,
+      (error, result) => {
+        if (error) {
+          reject(error.message);
+        } else {
+          resolve(result.rows[0]);
+        }
+      }
+    );
+  });
 };
 
 const deleteData = (id, data) => {
