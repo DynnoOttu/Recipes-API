@@ -86,9 +86,6 @@ const RecipesController = {
     try {
       const imageUrl = await cloudinary.uploader.upload(req.file.path, { folder: 'recipes' })
 
-      if (!imageUrl) {
-        res.status(404).json({ status: 404, message: `input data failed, failed to upload photo` })
-      }
       let id = req.params.id
       let data = {};
       data.title = req.body.title;
@@ -102,7 +99,6 @@ const RecipesController = {
       if (!users) {
         res.status(404).json({ status: 404, message: `this recipe is not owned by you` })
       }
-
 
       let result = await updateData(id, data)
 
