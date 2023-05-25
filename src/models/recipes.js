@@ -85,4 +85,5 @@ const selectedDataById = (id) => {
 }
 
 
+
 module.exports = { insertData, getData, updateData, deleteData, getDataById, findUser, selectedDataById }

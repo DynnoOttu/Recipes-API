@@ -1,10 +1,8 @@
 const Pool = require('./../config/db')
 
 const selectDataUsers = () => {
-  return Pool.query(
-    'SELECT * FROM users'
-  )
-}
+  return Pool.query("SELECT * from users");
+};
 
 const insertData = data => {
   console.log(data)
@@ -26,6 +24,7 @@ const selectUserById = (id) => {
 }
 
 
+
 const selectDataByEmail = (email) => {
   return new Promise((resolve, reject) =>
     Pool.query(`SELECT * FROM users WHERE email='${email}'`,
@@ -39,10 +38,10 @@ const selectDataByEmail = (email) => {
 }
 
 
-const updateData = (id, data) => {
-  return Pool.query(
-    `UPDATE users SET name='${data}', email='${data}', phone='${data}',password='${data}' WHERE id=${id}`)
-}
+// const updateData = (id, data) => {
+//   return Pool.query(
+//     `UPDATE users SET name='${data}', email='${data}', phone='${data}',password='${data}' WHERE id=${id}`)
+// }
 
 const deleteData = (id, data) => {
   return Pool.query(
@@ -74,8 +73,16 @@ const createUser = (data) => {
     }))
 }
 
+
 const verifUser = (id) => {
   return Pool.query(
     `UPDATE users SET verif=1 WHERE id='${id}'`)
 }
-module.exports = { selectDataUsers, insertData, selectUserById, updateData, deleteData, findUser, createUser, verifUser, selectDataByEmail }
+
+const updateUser = (data, id) => {
+  let { email, password, fullname, photo } = data;
+
+  return Pool.query(`UPDATE users SET email= '${email}',password = '${password}',fullname = '${fullname}', photo = '${photo}' WHERE users.id='${id}';`);
+};
+
+module.exports = { selectDataUsers, insertData, selectUserById, deleteData, findUser, createUser, verifUser, selectDataByEmail, updateUser }

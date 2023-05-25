@@ -1,4 +1,5 @@
-const { selectDataUsers, insertData, updateData, deleteData } = require('./../models/users')
+const { selectDataUsers, insertData, updateData, deleteData, selectUserById, updateUser } = require('./../models/users')
+const cloudinary = require('../config/photo')
 
 const data = {
   users: [{
@@ -56,21 +57,79 @@ const UsersController = {
 
     res.status(200).json({ status: 200, message: 'input data success ' })
   },
-  putData: async (req, res, next) => {
-    const id = req.params.id
-    const name = req.body.name
-    const email = req.body.email
-    const phone = req.body.phone
-    const password = req.body.password
+  // putData: async (req, res, next) => {
+  //   const id = req.params.id
+  //   const name = req.body.name
+  //   const email = req.body.email
+  //   const phone = req.body.phone
+  //   const password = req.body.password
 
-    const result = await updateData(id, name, email, phone, password)
+  //   const result = await updateUser(id, name, email, phone, password)
 
-    if (!result) {
-      res.status(404).json({ status: 404, message: 'data input not found' })
+  //   if (!result) {
+  //     res.status(404).json({ status: 404, message: 'data input not found' })
+  //   }
+
+  //   res.status(200).json({ status: 200, message: 'update data success' })
+  // },
+
+  getUserByPayloadId: async (req, res) => {
+    let id = req.payload.id;
+
+    try {
+      let result = await selectUserById(id);
+
+      res.status(200).json({
+        message: "User data foundr",
+        data: result.rows,
+      });
+    } catch (error) {
+      res.status(401).json({
+        message: "user not found",
+      });
+    }
+  },
+
+  updateDataUser: async (req, res) => {
+    let id = req.payload.id;
+
+    const imageUrl = await cloudinary.uploader.upload(req.file.path, { folder: 'recipes' })
+
+    if (!imageUrl) {
+      res.status(401).json({
+        message: "Failed to input data, please try again later",
+      });
     }
 
-    res.status(200).json({ status: 200, message: 'update data success' })
+    try {
+      let checking = await selectUserById(id);
+      let current = checking.rows[0];
+
+      let data = {};
+      data.email = req.body.email || current.email;
+      data.password = req.body.password || current.password;
+      data.fullname = req.body.fullname || current.fullname;
+      data.photo = imageUrl.secure_url || current.photo;
+
+      if (checking.rows[0].id !== id) {
+        res.status(404).json({
+          message: "data user not found",
+        });
+      } else {
+        await updateUser(data, id);
+
+        res.status(200).json({
+          message: "data update successfully",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Internal server error",
+        error: error.message,
+      });
+    }
   },
+
   deleteData: async (req, res, next) => {
     const id = req.params.id
     const result = await deleteData(id)
