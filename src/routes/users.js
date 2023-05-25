@@ -1,13 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const { getData, getDetailId, postData, putData, deleteData, getDataByEmail } = require("../controller/users");
-const { protect } = require('../middleware/auth')
-const upload = require('../middleware/uploadPhoto')
-const validateFile = require('../middleware/validatePhoto')
+const express = require('express')
+const router = express.Router()
+const { getData, postData, putData, deleteData, getDetail } = require('./../controller/users')
 
-router.get("/", getData);
-router.get("/my-profile", protect, getDetailId);
-router.get("/:email", getDataByEmail);
-router.put("/update-profile", protect, upload.single('photo'), validateFile, putData);
+router.get('/', getData)
+router.post('/', postData)
+router.get('/:id', getDetail)
+router.put('/:id', putData)
+router.delete('/:id', deleteData)
 
 module.exports = router
