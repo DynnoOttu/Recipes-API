@@ -4,7 +4,8 @@ const {
   updateData,
   deleteData,
   getDataById,
-  findUser
+  findUser,
+  selectedDataById
 } = require('./../models/recipes')
 const { findFoodRecipesById } = require("../middleware/verifyUser");
 const cloudinary = require('../config/photo')
@@ -150,6 +151,23 @@ const RecipesController = {
       console.log(error)
     }
   },
+
+  selectDataById: async (req, res, next) => {
+    try {
+      let id = req.params.id
+
+      let result = await selectedDataById(id)
+
+      if (result.rows[0]) {
+        res.status(200).json({ status: 200, message: `data recipe found`, data: result.rows })
+      } else {
+        res.status(400).json({ status: 400, message: `data recipe not found` })
+      }
+    } catch (err) {
+      return next(res.status(404).json({ status: 404, message: err.message }));
+    }
+  },
+
   deleteData: async (req, res, next) => {
     const id = req.params.id
     const result = await deleteData(id)
