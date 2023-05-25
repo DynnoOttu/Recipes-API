@@ -156,7 +156,7 @@ const RecipesController = {
     try {
       let id = req.params.id
 
-      let result = await selectedDataById(id)
+      let result = await getData(id)
 
       if (result.rows[0]) {
         res.status(200).json({ status: 200, message: `data recipe found`, data: result.rows })
