@@ -65,6 +65,7 @@ const RecipesController = {
       .status(200)
       .json({ status: 200, message: 'get data success', data: result.rows })
   },
+
   getRecipesById: async (req, res, next) => {
     const { searchBy, search, sortBy, sort } = req.query
     const data = {
