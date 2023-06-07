@@ -19,7 +19,7 @@ const getDataById = (data) => {
   const { searchBy, search, sortBy, sort, id } = data
   console.log(data)
   return Pool.query(
-    `SELECT recipes.title,recipes.ingredients,recipes.photo,recipes.created_at as posttime, category.name as category FROM recipes JOIN category ON recipes.category_id=category.id WHERE recipes.${searchBy} ILIKE '%${search}%' AND recipes.deleted_at IS NULL AND recipes.users_id='${id}' ORDER BY recipes.${sortBy} ${sort}`
+    `SELECT recipes.id,recipes.title,recipes.ingredients,recipes.photo,recipes.created_at as posttime, category.name as category FROM recipes JOIN category ON recipes.category_id=category.id WHERE recipes.${searchBy} ILIKE '%${search}%' AND recipes.deleted_at IS NULL AND recipes.users_id='${id}' ORDER BY recipes.${sortBy} ${sort}`
   )
 }
 
